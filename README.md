@@ -223,7 +223,7 @@ m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
 * MINUTE
 * DAY
 
-<span id="error_code">## Error Codes</span>
+## Error Codes
 
 ### Http status 200
 
