@@ -1095,7 +1095,7 @@ Get trades for a specific account and symbol.
 ]
 ```
 
-## Deposit & Withdraw
+## Deposit & Withdraw (Crypto)
 
 ### Withdraw commit  (WITHDRAW_DATA)
 
@@ -1280,6 +1280,125 @@ Query deposit history
 }
 ```
 
+## Market Data Streams WebSocket
+
+- The base websocket endpoint is: wss://ws.bittime.com/market/ws
+-  One connection can subscribe to multiple data streams at the same time
+- The subscribed server sends a ping message every 15 seconds.After receiving the ping message, the client side need to return pong within 1 minutes. Otherwise, the connection will be disconnected automatically
+- You should collect byte type of data and then unzip it with gzip, then convert it into string.
+
+### Ping/Keep-alive (MARKET_STREAM)
+
+Example of ping:
+
+```
+{
+    "ping":"1663815268584"    /timestamp
+}
+```
+
+Example of pong:
+
+```
+{
+    "pong":"1663815268584"    //It can be any content
+}
+```
+
+### Live Subscribing/Unsubscribing to streams
+
+- Subscribe/unsubscribe from streams via the WebSocket instance.Examples can be seen below.
+- After a successful subscription, you will receive a successful subscription response immediately, and then you will continue to receive the latest depth push
+
+#### <span id="ws_depth">Subscribe order book depth</span>
+
+**Request:**
+
+```
+{
+    "event":"${event}",            //sub:Subscribe，unsub:Unsubscribe
+    "params":{
+        "cb_id":"${cb_id}",        //trading pair，eg: btcusdt
+        "channel":"${channel}"    //channel: channel to be subscribed, {cb_id}：placeholder, depth:market_{cb_id}_simple_depth_step0
+    }
+}
+```
+
+**Parameters:**
+
+| Name    | Type   | Mandatory | Description                                                     |
+| ------- | ------ | --------- | --------------------------------------------------------------- |
+| event   | STRING | YES       | sub:Subscribe，unsub:Unsubscribe                                 |
+| cb_id   | STRING | YES       | Symbol name                                                     |
+| channel | STRING | YES       | depth channel will be like `market_${cb_id}_simple_depth_step0` |
+
+**Request Example:**
+
+```
+{
+    "event":"sub",
+    "params":{
+        "cb_id":"btcusdt",
+        "channel":"market_btcusdt_simple_depth_step0"
+    }
+}
+```
+
+**Response:**
+
+```
+{
+    "channel":"${channel}",
+    "cb_id":"${cb_id}",
+    "event_rep":"subed",        //subscripted
+    "status":"ok",                //success
+    "ts":${timestamp}                //timestamp
+}
+```
+
+**Response Example:**
+
+```
+{
+    "channel":"market_btcusdt_simple_depth_step0",
+    "cb_id":"btcusdt",
+    "event_rep":"subed",
+    "status":"ok",
+    "ts":1663815268584
+}
+```
+
+**Response of DEPTH message pushing**
+
+```
+{
+    "ts":1663815268584,         //timestamp
+    "channel":"market_btcusdt_simple_depth_step0",
+    "tick":{     
+        "buys":[    //Buy
+            [
+                "18619.40",  //Price
+                "0.0013"  //Quantity
+            ],
+            [
+                "1000.00",
+                "0.0020"
+            ]
+        ],
+        "asks":[    //Sell
+            [
+                "18620.32",  //Price
+                "0.0220"  //Quantity
+            ],
+            [
+                "606500.00",
+                "0.0001"
+            ]
+        ]
+    }
+}
+```
+
 # User Data Streams
 
 - The base API endpoint is: https://open.bittime.com
@@ -1437,7 +1556,7 @@ order event :
 }
 ```
 
-</span>
+
 **unsubscribe：**
 
 ```
