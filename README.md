@@ -753,6 +753,7 @@ Send in a new order.
 | icebergQty                                     | DECIMAL | NO        |                                                                 |
 | recvWindow                                     | LONG    | NO        |                                                                 |
 | timestamp                                      | LONG    | YES       |                                                                 |
+| timeInForce                                    | STRING  | NO        | post only                                                       |
 
 Additional mandatory parameters based on `type`:
 
@@ -760,6 +761,12 @@ Additional mandatory parameters based on `type`:
 | -------- | ------------------------------- |
 | `LIMIT`  | `quantity`, `price`             |
 | `MARKET` | `quantity`                      |
+
+Additional mandatory parameters based on `timeInForce`:
+
+| Type        | Additional mandatory parameters |
+| ----------- | ------------------------------- |
+| `POST_ONLY` | `type=LIMIT`                    |
 
 **Response :**
 
