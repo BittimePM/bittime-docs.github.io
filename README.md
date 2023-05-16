@@ -753,7 +753,7 @@ Send in a new order.
 | icebergQty                                     | DECIMAL | NO        |                                                                 |
 | recvWindow                                     | LONG    | NO        |                                                                 |
 | timestamp                                      | LONG    | YES       |                                                                 |
-| timeInForce                                    | STRING  | NO        | post only                                                       |
+| timeInForce                                    | STRING  | NO        | Value equals ` POST_ ONLY ', supports post only type orders.    |
 
 Additional mandatory parameters based on `type`:
 
