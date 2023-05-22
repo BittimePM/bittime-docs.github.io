@@ -745,7 +745,6 @@ Send in a new order.
 | symbol                                         | STRING  | YES       |                                                                 |
 | side                                           | ENUM    | YES       |                                                                 |
 | type                                           | ENUM    | YES       |                                                                 |
-| timeInForce                                    | ENUM    | NO        |                                                                 |
 | quantity                                       | DECIMAL | YES       |                                                                 |
 | price                                          | DECIMAL | NO        |                                                                 |
 | <span id="place_order">newClientOrderId</span> | STRING  | NO        | A unique id for the order. Automatically generated if not sent. |
